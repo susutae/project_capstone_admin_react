@@ -1,0 +1,9 @@
+.RaLayout-appFrame {
+  background:
+    radial-gradient(circle at top right, rgba(21, 94, 117, 0.08), transparent 32rem),
+    #f5f7f8;
+}
+
+.RaDatagrid-root .MuiTableRow-root:hover {
+  background-color: rgba(21, 94, 117, 0.05);
+}
