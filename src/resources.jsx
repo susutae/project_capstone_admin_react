@@ -56,7 +56,7 @@ const transformUser = async (record, { creating = false } = {}) => {
 }
 
 const UserForm = ({ creating = false }) => (
-  <SimpleForm>
+  <SimpleForm className="admin-form">
     <TextInput source="full_name" validate={required()} fullWidth />
     <TextInput source="email" type="email" validate={required()} fullWidth />
     <TextInput
@@ -109,7 +109,7 @@ export const UserEdit = () => (
 )
 
 const CategoryForm = () => (
-  <SimpleForm>
+  <SimpleForm className="admin-form">
     <TextInput source="name" validate={required()} fullWidth />
     <TextInput source="slug" validate={required()} fullWidth />
   </SimpleForm>
@@ -129,7 +129,7 @@ export const CategoryCreate = () => <Create><CategoryForm /></Create>
 export const CategoryEdit = () => <Edit mutationMode="pessimistic"><CategoryForm /></Edit>
 
 const ProductForm = () => (
-  <SimpleForm>
+  <SimpleForm className="admin-form">
     <ReferenceInput source="category_id" reference="categories">
       <SelectInput optionText="name" />
     </ReferenceInput>
@@ -159,7 +159,7 @@ export const ProductCreate = () => <Create><ProductForm /></Create>
 export const ProductEdit = () => <Edit mutationMode="pessimistic"><ProductForm /></Edit>
 
 const CartForm = () => (
-  <SimpleForm>
+  <SimpleForm className="admin-form">
     <ReferenceInput source="user_id" reference="users">
       <SelectInput optionText="email" helperText="Choose a user, or leave empty and enter a guest session token." />
     </ReferenceInput>
@@ -181,7 +181,7 @@ export const CartCreate = () => <Create><CartForm /></Create>
 export const CartEdit = () => <Edit mutationMode="pessimistic"><CartForm /></Edit>
 
 const CartItemForm = () => (
-  <SimpleForm>
+  <SimpleForm className="admin-form">
     <ReferenceInput source="cart_id" reference="carts"><SelectInput validate={required()} /></ReferenceInput>
     <ReferenceInput source="product_id" reference="products"><SelectInput optionText="title" validate={required()} /></ReferenceInput>
     <NumberInput source="quantity" min={1} validate={required()} defaultValue={1} />
@@ -203,7 +203,7 @@ export const CartItemCreate = () => <Create><CartItemForm /></Create>
 export const CartItemEdit = () => <Edit mutationMode="pessimistic"><CartItemForm /></Edit>
 
 const OrderForm = ({ create = false }) => (
-  <SimpleForm>
+  <SimpleForm className="admin-form">
     {create && <ReferenceInput source="user_id" reference="users"><SelectInput optionText="email" /></ReferenceInput>}
     {create && <TextInput source="order_code" validate={required()} />}
     {create && <TextInput source="auth_token" validate={required()} fullWidth />}
@@ -243,7 +243,7 @@ export const OrderCreate = () => <Create><OrderForm create /></Create>
 export const OrderEdit = () => <Edit mutationMode="pessimistic"><OrderForm /></Edit>
 export const OrderShow = () => (
   <Show>
-    <SimpleShowLayout>
+    <SimpleShowLayout className="admin-show">
       <TextField source="id" />
       <TextField source="order_code" />
       <ReferenceField source="user_id" reference="users" emptyText="Guest"><TextField source="email" /></ReferenceField>
@@ -261,7 +261,7 @@ export const OrderShow = () => (
 )
 
 const OrderItemForm = () => (
-  <SimpleForm>
+  <SimpleForm className="admin-form">
     <ReferenceInput source="order_id" reference="orders"><SelectInput optionText="order_code" validate={required()} /></ReferenceInput>
     <ReferenceInput source="product_id" reference="products"><SelectInput optionText="title" validate={required()} /></ReferenceInput>
     <TextInput source="sku" validate={required()} />
