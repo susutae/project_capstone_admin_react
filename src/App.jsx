@@ -7,8 +7,10 @@ import {
   ShoppingCart as CartIcon,
 } from '@mui/icons-material'
 import { dataProvider } from './dataProvider'
+import { authProvider } from './authProvider'
 import { AdminLayout } from './AdminLayout'
 import { Dashboard } from './Dashboard'
+import { LoginPage } from './LoginPage'
 import {
   CartCreate,
   CartEdit,
@@ -36,9 +38,11 @@ import './App.css'
 
 const App = () => (
   <Admin
+    authProvider={authProvider}
     dataProvider={dataProvider}
     dashboard={Dashboard}
     layout={AdminLayout}
+    loginPage={LoginPage}
     title="Capstone Commerce Admin"
     theme={{
       palette: {
