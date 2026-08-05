@@ -41,9 +41,16 @@ The UI supports creating, viewing, updating, and deleting users, categories,
 products, carts, cart items, and orders. Order items can be filtered by order,
 created, and deleted (the operations exposed by the backend API).
 
-New user passwords are hashed in the browser with bcrypt (12 salt rounds) and
-sent to the backend only as the `password_hash` field. User edits also hash a
-new password when one is entered.
+## Authentication
+
+Sign in with the email address and password of a user registered in the backend.
+The app stores the returned JWT in session storage, sends it as a Bearer token
+with API requests, and returns to the login page when the token expires or the
+API responds with `401` or `403`.
+
+New and changed passwords are sent over HTTPS as the `password` field. The
+backend validates and hashes them before storage; password hashes are never
+returned to the admin app.
 
 Order items are listed with the backend's filtered route:
 `/api/order-items/order/:order_id`. The backend does not expose an unfiltered

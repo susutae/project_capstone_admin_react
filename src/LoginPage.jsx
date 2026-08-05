@@ -4,6 +4,7 @@ import {
   AdminPanelSettingsRounded,
   ArrowForwardRounded,
   LockOutlined,
+  MailOutlineRounded,
   VisibilityOffOutlined,
   VisibilityOutlined,
 } from '@mui/icons-material'
@@ -19,6 +20,7 @@ import {
 
 export const LoginPage = () => {
   const login = useLogin()
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
@@ -30,7 +32,7 @@ export const LoginPage = () => {
     setIsSubmitting(true)
 
     try {
-      await login({ password })
+      await login({ email, password })
     } catch (loginError) {
       setError(loginError?.message || 'Unable to sign in. Please try again.')
       setIsSubmitting(false)
@@ -77,7 +79,7 @@ export const LoginPage = () => {
             Welcome back
           </Typography>
           <Typography className="login-card__subtitle">
-            Enter the administrator password to continue.
+            Enter your account credentials to continue.
           </Typography>
 
           <Box component="form" className="login-form" onSubmit={handleSubmit}>
@@ -88,10 +90,33 @@ export const LoginPage = () => {
             )}
 
             <TextField
-              autoComplete="current-password"
+              autoComplete="username"
               autoFocus
               fullWidth
-              label="Administrator password"
+              label="Email address"
+              name="email"
+              onChange={(event) => {
+                setEmail(event.target.value)
+                if (error) setError('')
+              }}
+              required
+              type="email"
+              value={email}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <MailOutlineRounded fontSize="small" />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+
+            <TextField
+              autoComplete="current-password"
+              fullWidth
+              label="Password"
               name="password"
               onChange={(event) => {
                 setPassword(event.target.value)
@@ -124,7 +149,7 @@ export const LoginPage = () => {
 
             <Button
               className="login-form__submit"
-              disabled={isSubmitting || !password}
+              disabled={isSubmitting || !email.trim() || !password}
               endIcon={<ArrowForwardRounded />}
               fullWidth
               size="large"

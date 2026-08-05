@@ -24,7 +24,6 @@ import {
   TextInput,
   UrlField,
 } from 'react-admin'
-import { hash } from 'bcryptjs'
 
 const listFilters = [<SearchInput key="q" source="q" alwaysOn />]
 const orderItemFilters = [
@@ -43,16 +42,18 @@ const rowActions = (
   </>
 )
 
-const transformUser = async (record, { creating = false } = {}) => {
-  const { password, ...user } = record
-
-  if (password) {
-    user.password_hash = await hash(password, 12)
-  } else if (creating) {
+const transformUser = (record, { creating = false } = {}) => {
+  if (!record.password && creating) {
     throw new Error('Password is required.')
   }
 
-  return user
+  if (!record.password) {
+    const user = { ...record }
+    delete user.password
+    return user
+  }
+
+  return record
 }
 
 const UserForm = ({ creating = false }) => (
@@ -65,7 +66,7 @@ const UserForm = ({ creating = false }) => (
       label={creating ? 'Password' : 'New password'}
       validate={creating ? required() : undefined}
       helperText={creating
-        ? 'Hashed with bcrypt before it is sent to the API.'
+        ? 'Sent securely over HTTPS and hashed by the API.'
         : 'Leave blank to keep the current password.'}
       autoComplete="new-password"
       fullWidth

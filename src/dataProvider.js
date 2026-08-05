@@ -1,9 +1,6 @@
 import { fetchUtils } from 'react-admin'
-
-const apiUrl = (
-  import.meta.env.VITE_API_URL ||
-  'https://capstone-project-backend-delta.vercel.app/api'
-).replace(/\/$/, '')
+import { apiUrl } from './apiConfig'
+import { getAuthToken } from './authSession'
 
 const responseKeys = {
   users: 'user',
@@ -19,12 +16,20 @@ const endpoint = (resource, id) =>
   `${apiUrl}/${resource}${id === undefined ? '' : `/${encodeURIComponent(id)}`}`
 
 const request = async (url, options = {}) => {
+  const headers = new Headers(options.headers)
+  const token = getAuthToken()
+
+  headers.set('Accept', 'application/json')
+  if (options.body) headers.set('Content-Type', 'application/json')
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+
   try {
-    const { json } = await fetchUtils.fetchJson(url, options)
+    const { json } = await fetchUtils.fetchJson(url, { ...options, headers })
     return json
   } catch (error) {
     const message = error.body?.error || error.body?.message || error.message
-    throw new Error(message, { cause: error })
+    error.message = message
+    throw error
   }
 }
 
