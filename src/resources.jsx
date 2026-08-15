@@ -83,7 +83,7 @@ const UserForm = ({ creating = false }) => (
       source="membership_tier"
       validate={required()}
       choices={[
-        { id: "standard", name: "Standard" },
+        { id: "standard", name: "Regular" },
         { id: "silver", name: "Silver" },
         { id: "gold", name: "Gold" },
         { id: "platinum", name: "Platinum" },
