@@ -62,6 +62,11 @@ const transformUser = (record, { creating = false } = {}) => {
   return record;
 };
 
+const formatMembershipTier = (value) => {
+  const tier = String(value ?? "").toLowerCase();
+  return tier === "standard" ? "regular" : tier;
+};
+
 const UserForm = ({ creating = false }) => (
   <SimpleForm className="admin-form">
     <TextInput source="full_name" validate={required()} fullWidth />
@@ -82,8 +87,9 @@ const UserForm = ({ creating = false }) => (
     <SelectInput
       source="membership_tier"
       validate={required()}
+      format={formatMembershipTier}
       choices={[
-        { id: "standard", name: "Regular" },
+        { id: "regular", name: "Regular" },
         { id: "silver", name: "Silver" },
         { id: "gold", name: "Gold" },
         { id: "platinum", name: "Platinum" },
